@@ -9,9 +9,9 @@ function defineReactive(obj, key, val) {
     },
     set(newVal) {
       if (newVal !== val) {
-      console.log(`set ${key}:${newVal}`)
-      val = newVal
-    }
+        console.log(`set ${key}:${newVal}`)
+        val = newVal
+      }
     }
   })
 }
