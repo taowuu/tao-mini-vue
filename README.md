@@ -182,7 +182,7 @@ class Vue {
 - 样例代码 `vue1.html`
 - 样例代码 `vue1.js`
 
-## Observer Class
+## Observer 数据响应化
 ```js
 class Observer {
   constructor(obj) {
@@ -203,6 +203,75 @@ class Observer {
 
 ## 开始实现自己的 Vue2
 - 新增 Observer 处理不同数据的响应式
-
 - 样例代码 `vue2.html`
 - 样例代码 `vue2.js`
+
+## Complie 模板编译
+```js
+class Compile {
+  constructor(el, vm) {
+    this.$vm = vm
+    this.$el = document.querySelector(el)
+    // 如果有节点挂载则进行编译
+    if(this.$el) {
+      this.compile(this.$el)
+    }
+  }
+}
+```
+
+## 开始实现自己的 Vue3
+- 新增 Complie 进行模板编译
+- 编译节点指令和插值表达式
+- 样例代码 `vue3.html`
+- 样例代码 `vue3.js`
+
+## Watcher 属性监听
+```js
+class Watcher {
+  constructor(vm, key, updater) {
+    this.vm = vm
+    this.key = key
+    this.updater = updater
+  }
+
+  // 将来会被 Dep 调用
+  update() {
+    this.updater.call(this.vm, this.vm[this.key])
+  }
+}
+```
+
+## 开始实现自己的 Vue4
+- 新增 Watcher 进行依赖收集
+- 保存 key 与对于更新函数
+
+- 样例代码 `vue4.html`
+- 样例代码 `vue4.js`
+
+## Dep 依赖收集
+```js
+class Dep {
+  constructor() {
+    this.deps = []
+  }
+
+  // 此处 dep 就是 Watcher 的实例
+  addDep(dep) {
+    // 创建依赖关系时调用
+    this.deps.push(dep)
+  }
+  
+  notify() {
+    this.deps.forEach(dep => dep.update())
+  }
+}
+```
+
+## 开始实现自己的 Vue5
+- 新增 Dep 在响应化时进行依赖收集
+- 保存 watcher 实例的依赖
+- 遍历执行 watcher
+
+- 样例代码 `vue5.html`
+- 样例代码 `vue5.js`
