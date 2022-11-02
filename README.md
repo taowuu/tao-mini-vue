@@ -142,7 +142,6 @@ obj.dong // get dong:dong
 - 将 data 中的属性代理到 Vue 实例上
 - 以至于可以直接通过 Vue 实例访问属性
 - `app.$data.count -> app.count`
-- 代码样例 `utils.js`
 ```js
 // 能够将传入对象中的所有 key 代理到指定对象上
 function proxy(vm) {
@@ -159,6 +158,23 @@ function proxy(vm) {
 }
 ```
 
+## Vue Class
+```js
+class Vue {
+  constructor(options) {
+    // 保存选项
+    this.$options = options
+    this.$data = options.data
+
+    // 对data做响应式处理
+    observe(options.data)
+
+    // 属性代理
+    proxy(this)
+  }
+}
+```
+
 ## 开始实现自己的 Vue1
 - 新建 Vue 实例
 - 对传入的选项进行解析
@@ -166,6 +182,24 @@ function proxy(vm) {
 - 样例代码 `vue1.html`
 - 样例代码 `vue1.js`
 
+## Observer Class
+```js
+class Observer {
+  constructor(obj) {
+    // 判断传入obj类型，做相应处理
+    if (Array.isArray(obj)) {
+      // todo
+    } else {
+      this.walk(obj)
+    }
+  }
+
+  walk(obj) {
+    // 响应化多属性
+    Object.keys(obj).forEach((key) => defineReactive(obj, key, obj[key]))
+  }
+}
+```
 
 ## 开始实现自己的 Vue2
 - 新增 Observer 处理不同数据的响应式
