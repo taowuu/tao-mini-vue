@@ -18,6 +18,7 @@ function defineReactive(obj, key, val) {
     }
   })
 }
+
 // 遍历响应式处理
 function observe(obj) {
   if (typeof obj !== "object" || obj == null) {
@@ -26,27 +27,18 @@ function observe(obj) {
   // 对多属性
   Object.keys(obj).forEach((key) => defineReactive(obj, key, obj[key]))
 }
-// 新增属性响应式
-function set(obj, key, val) {
-  defineReactive(obj, key, val)
-}
-// 效果展示
-let obj = {
-  name: 'tao',
-  hobbies: {
-    sport: 'run',
-  }
+
+// 能够将传入对象中的所有 key 代理到指定对象上
+function proxy(vm) {
+  Object.keys(vm.$data).forEach((key) => {
+    Object.defineProperty(vm, key, {
+      get() {
+        return vm.$data[key]
+      },
+      set(v) {
+        vm.$data[key] = v
+      },
+    })
+  })
 }
 
-observe(obj)
-obj.name // get name:tao
-// 解决嵌套对象问题
-obj.hobbies.sport // get sport:run
-// 解决赋的值是对象的情况
-obj.hobbies = {
-  food: 'apple'
-}
-obj.hobbies.food // get food:apple
-// 新增属性
-set(obj, 'dong', 'dong')
-obj.dong // get dong:dong
