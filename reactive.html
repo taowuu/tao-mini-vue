@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>reactive</title>
+</head>
+<body>
+  <div id="app"></div>
+</body>
+<script>
+  // 要拦截的对象
+  const obj = {}
+  // 对数据取值、赋值进行拦截
+  function defineReactive(obj, key, val) {
+    Object.defineProperty(obj, key, {
+      get() {
+        console.log(`get ${key}:${val}`)
+        return val
+      },
+      set(newVal) {
+        if (newVal !== val) {
+          console.log(`set ${key}:${newVal}`)
+          val = newVal
+          // 每秒改变数据并更新在视图上
+          update()
+        }
+      }
+    })
+  }
+  // 效果展示
+  defineReactive(obj, 'foo', 'foo')
+
+  obj.foo = new Date().toLocaleTimeString()
+
+  function update() {
+    app.innerText = obj.foo
+  }
+
+  setInterval(() => {
+    obj.foo = new Date().toLocaleTimeString()
+  }, 1000)
+</script>
+</html>
