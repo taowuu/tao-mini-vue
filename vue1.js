@@ -1,3 +1,17 @@
+class Vue {
+  constructor(options) {
+    // 保存选项
+    this.$options = options
+    this.$data = options.data
+
+    // 对data做响应式处理
+    observe(options.data)
+
+    // 属性代理
+    proxy(this)
+  }
+}
+
 // 对数据取值、赋值进行拦截
 function defineReactive(obj, key, val) {
   // val 如果是个对象，就需要递归处理
@@ -20,20 +34,12 @@ function defineReactive(obj, key, val) {
 }
 
 // 遍历响应式处理
-function observe1(obj) {
+function observe(obj) {
   if (typeof obj !== "object" || obj == null) {
     return obj
   }
   // 对多属性
   Object.keys(obj).forEach((key) => defineReactive(obj, key, obj[key]))
-}
-
-// 遍历响应式处理
-function observe2(obj) {
-  if (typeof obj !== "object" || obj == null) {
-    return obj
-  }
-  new Observer(obj)
 }
 
 // 能够将传入对象中的所有 key 代理到指定对象上
@@ -49,4 +55,3 @@ function proxy(vm) {
     })
   })
 }
-

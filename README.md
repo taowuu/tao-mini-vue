@@ -138,7 +138,7 @@ set(obj, 'dong', 'dong')
 obj.dong // get dong:dong
 ```
 
-### 属性代理
+## 属性代理
 - 将 data 中的属性代理到 Vue 实例上
 - 以至于可以直接通过 Vue 实例访问属性
 - `app.$data.count -> app.count`
@@ -159,52 +159,16 @@ function proxy(vm) {
 }
 ```
 
-## 开始实现自己的 Vue
+## 开始实现自己的 Vue1
 - 新建 Vue 实例
 - 对传入的选项进行解析
 - 对数据进行相应化、代理
+- 样例代码 `vue1.html`
+- 样例代码 `vue1.js`
 
-### HTML
-- 样例代码 `vue.html`
-```html
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<div id="app">
-  <p>{{counter}}</p>
-</div>
 
-<script src="./utils.js"></script>
-<script src="./vue.js"></script>
-<script>
-  const app = new Vue({
-    el: '#app',
-    data: {
-      counter: 1,
-    },
-  })
-  
-  setInterval(() => {
-    app.counter++
-  }, 1000)
-  // 不停打印
-  // get counter:1
-  // set counter:2
-</script>
-```
+## 开始实现自己的 Vue2
+- 新增 Observer 处理不同数据的响应式
 
-### Vue.js
-- 样例代码 `vue.js`
-```js
-class Vue {
-  constructor(options) {
-    // 保存选项
-    this.$options = options
-    this.$data = options.data
-
-    // 对data做响应式处理
-    observe(options.data)
-
-    // 属性代理
-    proxy(this)
-  }
-}
-```
+- 样例代码 `vue2.html`
+- 样例代码 `vue2.js`
